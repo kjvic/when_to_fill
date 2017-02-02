@@ -30,7 +30,7 @@ if __name__ == "__main__":
     keep_going = True
     while keep_going:
         print "\nNext fill is on/after:",
-        next_fill_date = compute_next_fill(last_fill_data, days_per_rx)
+        next_fill_date = compute_next_fill(last_fill_date, days_per_rx)
         print next_fill_date
         last_fill_date = next_fill_date
 
