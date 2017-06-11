@@ -5,6 +5,7 @@ Command line utility to compute when to fill a medication.
 Will compute multiple future dates at a user's option.
 """
 
+from datetime import datetime
 from datetime import date
 from datetime import timedelta
 
@@ -41,15 +42,30 @@ def loop_template_method(gen, customization_fn=lambda *args: None):
         return False
     return True
 
-def first_time_fn():
-    print()
-    print("To quit, type q")
-    print("To calculate the next fill date, press any other key")
+def get_first_time_fn(days_per_rx, last_fill_date):
+    now = datetime.now().date()
+    def _first_time_fn():
+        num_pills_left = get_num_pills_left(
+            days_per_rx, last_fill_date, now)
+        print("You should have ",
+              num_pills_left,
+              "pills left (NOT counting today's dose)"
+              "\n\n"
+              "To quit, type q"
+              "\n"
+              "To calculate the next fill date, press RETURN")
+    return _first_time_fn
+
+def get_num_pills_left(days_per_rx, last_fill_date, now):
+    delta = now - last_fill_date
+    days_used_up = delta.days
+    return days_per_rx.days - days_used_up
 
 def main():
     last_fill_date = read_last_fill_date()
     days_per_rx = read_days_per_rx()
     gen = next_fill_generator(last_fill_date, days_per_rx)
+    first_time_fn = get_first_time_fn(days_per_rx, last_fill_date)
     if not loop_template_method(gen, first_time_fn):
         return
     while loop_template_method(gen):
