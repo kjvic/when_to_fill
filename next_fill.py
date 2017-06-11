@@ -28,9 +28,14 @@ def read_last_fill_date():
 
 def read_days_per_rx():
     print("\nHow often do you fill this med?")
-    days_per_rx = timedelta(int(input("\tEvery ___ days: ")))
+    # timedelta specifies a number of days when passed an int
+    _days_per_rx = int(input("\tEvery ___ days: "))
+    if _days_per_rx <= 0:
+        raise InputError(
+            "Cannot fill every ", _days_per_rx,
+            "Fill frequency must be a positive number of days")
     print()
-    return days_per_rx
+    return timedelta(_days_per_rx)
 
 def loop_template_method(gen, customization_fn=lambda *args: None):
     next_fill_date = next(gen)
