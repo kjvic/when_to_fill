@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """
 Command line utility to compute when to fill a medication.
@@ -54,7 +54,7 @@ def get_first_time_fn(days_per_rx, last_fill_date):
             days_per_rx, last_fill_date, now)
         print("You should have ",
               num_pills_left,
-              "pills left (NOT counting today's dose)"
+              "days' supply left (NOT counting today's dose)"
               "\n\n"
               "To quit, type q"
               "\n"
